@@ -1,244 +1,102 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bulk Mail Sender</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      :root {
-        --primary: #6366f1;
-        --secondary: #8b5cf6;
-        --accent: #ec4899;
-      }
-      
-      body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-      
-      .container-wrapper {
-        width: 100%;
-        padding: 20px;
-      }
-      
-      .card {
-        border: none;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-      }
-      
-      .card-header {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        color: white;
-        padding: 30px;
-        border: none;
-      }
-      
-      .card-title {
-        font-size: 2rem;
-        font-weight: 700;
-        margin: 0;
-        letter-spacing: -0.5px;
-      }
-      
-      .card-body {
-        padding: 40px;
-        background: #f8fafc;
-      }
-      
-      .form-group {
-        margin-bottom: 28px;
-      }
-      
-      .form-label {
-        font-weight: 600;
-        color: #1e293b;
-        margin-bottom: 10px;
-        font-size: 1rem;
-        display: block;
-      }
-      
-      .form-control, .form-control:focus {
-        border-radius: 12px;
-        border: 2px solid #e2e8f0;
-        padding: 12px 16px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-      }
-      
-      .form-control:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-      }
-      
-      textarea.form-control {
-        font-family: 'Courier New', monospace;
-        resize: vertical;
-        min-height: 150px;
-      }
-      
-      .form-file-input {
-        position: relative;
-      }
-      
-      .form-file-input input[type="file"] {
-        display: none;
-      }
-      
-      .file-label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px;
-        border: 2px dashed var(--primary);
-        border-radius: 12px;
-        cursor: pointer;
-        background: rgba(99, 102, 241, 0.05);
-        transition: all 0.3s ease;
-        text-align: center;
-        color: var(--primary);
-      }
-      
-      .file-label:hover {
-        border-color: var(--secondary);
-        background: rgba(99, 102, 241, 0.1);
-      }
-      
-      .file-icon {
-        font-size: 2rem;
-        margin-bottom: 10px;
-      }
-      
-      .btn-send {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        border: none;
-        color: white;
-        padding: 14px 40px;
-        font-weight: 600;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        width: 100%;
-        cursor: pointer;
-        letter-spacing: 0.5px;
-      }
-      
-      .btn-send:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        color: white;
-      }
-      
-      .btn-send:active {
-        transform: translateY(0);
-      }
-      
-      .help-text {
-        font-size: 0.85rem;
-        color: #64748b;
-        margin-top: 6px;
-        font-style: italic;
-      }
-      
-      .badge-info {
-        background: rgba(99, 102, 241, 0.1);
-        color: var(--primary);
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: inline-block;
-        margin-top: 4px;
-      }
-      
-      @media (max-width: 768px) {
-        .card-body {
-          padding: 25px;
-        }
-        
-        .card-title {
-          font-size: 1.5rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container-wrapper">
-      <div class="container" style="max-width: 700px;">
-        <div class="card">
-          <div class="card-header">
-            <h1 class="card-title">📧 Bulk Mail Sender</h1>
-          </div>
-          <div class="card-body">
-            <form action="/send" method="post" enctype="multipart/form-data">
-              <!-- File Upload -->
-              <div class="form-group form-file-input">
-                <label for="file" class="file-label">
-                  <div>
-                    <div class="file-icon">📁</div>
-                    <strong>Click to upload CSV</strong>
-                    <p style="margin: 8px 0 0; font-size: 0.9rem;">or drag and drop</p>
-                  </div>
-                </label>
-                <input type="file" id="file" name="file" accept=".csv" required>
-                <div class="help-text">Must contain email column</div>
-              </div>
 
-              <!-- From Email -->
-              <div class="form-group">
-                <label for="from_addr" class="form-label">From Address (Optional)</label>
-                <input type="email" id="from_addr" class="form-control" name="from_addr" placeholder="Leave empty to use SMTP user">
-                <div class="help-text">Leave blank to use configured SMTP email</div>
-              </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Mail Automation | Launch Campaign</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 
-              <!-- Subject -->
-              <div class="form-group">
-                <label for="subject" class="form-label">Subject</label>
-                <input type="text" id="subject" class="form-control" name="subject" placeholder="e.g., Welcome to our newsletter" required>
-              </div>
+<body>
+  <div class="container animate-fade-in">
+    <header>
+      <h1><i class="fa-solid fa-robot"></i> AI Mail Agent</h1>
+      <p class="subtitle">Automated, personalized email campaigns at scale.</p>
+    </header>
 
-              <!-- Body -->
-              <div class="form-group">
-                <label for="body" class="form-label">Email Body</label>
-                <textarea id="body" class="form-control" name="body" placeholder="Hi {{name}},&#10;&#10;Your personalized message here..." required></textarea>
-                <div class="badge-info">💡 Use {{name}} to personalize</div>
-              </div>
-
-              <!-- Submit Button -->
-              <button type="submit" class="btn-send">🚀 Send Bulk Emails</button>
-            </form>
-          </div>
-        </div>
-      </div>
+    <!-- Mode Switcher -->
+    <div class="tabs delay-1 animate-fade-in">
+      <button class="tab-btn active" onclick="switchMode('bulk')">
+        <i class="fa-solid fa-users"></i> Bulk Blast
+      </button>
+      <button class="tab-btn" onclick="switchMode('single')">
+        <i class="fa-solid fa-paper-plane"></i> Single Email
+      </button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      const fileInput = document.getElementById('file');
-      const fileLabel = document.querySelector('.file-label').parentElement;
-      
-      fileLabel.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        fileLabel.style.borderColor = 'var(--secondary)';
-        fileLabel.style.background = 'rgba(99, 102, 241, 0.15)';
-      });
-      
-      fileLabel.addEventListener('dragleave', () => {
-        fileLabel.style.borderColor = 'var(--primary)';
-        fileLabel.style.background = 'rgba(99, 102, 241, 0.05)';
-      });
-      
-      fileLabel.addEventListener('drop', (e) => {
-        e.preventDefault();
-        if (e.dataTransfer.files.length) {
-          fileInput.files = e.dataTransfer.files;
-        }
-      });
-    </script>
-  </body>
+    <main class="glass-panel delay-2 animate-fade-in" style="padding: 2rem;">
+      <form action="/send" method="POST" enctype="multipart/form-data" id="campaign-form">
+        <input type="hidden" name="mode" id="mode-input" value="bulk">
+
+        <!-- Bulk Section -->
+        <div id="bulk-section" class="visible">
+          <div class="form-group">
+            <label>Recipient List (CSV)</label>
+            <div id="drop-zone" class="file-upload-area">
+              <input type="file" name="file" id="file" class="file-input" accept=".csv">
+              <div class="file-label">
+                <i class="fa-solid fa-cloud-arrow-up icon-upload"></i>
+                <span>Drag & drop your CSV file here</span>
+                <small style="color: var(--text-muted)">Columns: email, name</small>
+              </div>
+            </div>
+            <div id="file-name" class="file-name" style="text-align: center; opacity: 0; transition: opacity 0.3s;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Single Section -->
+        <div id="single-section" class="hidden">
+          <div class="form-group">
+            <label for="recipient_email">Recipient Email</label>
+            <input type="email" name="recipient_email" id="recipient_email" placeholder="recipient@example.com">
+          </div>
+          <div class="form-group">
+            <label for="recipient_name">Recipient Name (Optional)</label>
+            <input type="text" name="recipient_name" id="recipient_name" placeholder="John Doe">
+          </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+
+        <!-- Common Fields -->
+        <div class="form-group">
+          <label for="from_addr">From Address (Optional)</label>
+          <input type="email" name="from_addr" id="from_addr" placeholder="Defaults to configured SMTP user">
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject Line</label>
+          <input type="text" name="subject" id="subject" placeholder="Enter an engaging subject..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="body">Email Body</label>
+          <textarea name="body" id="body" placeholder="Hello {{name}},&#10;&#10;I am writing to you about..."
+            required></textarea>
+          <small style="color: var(--text-muted); display: block; margin-top: 0.5rem;">
+            <i class="fa-solid fa-circle-info"></i> Pro Tip: Use <strong>{{name}}</strong> to auto-insert the
+            recipient's name.
+          </small>
+        </div>
+
+        <!-- Submit Action -->
+        <div style="text-align: center; margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-rocket" style="margin-right: 0.5rem;"></i> Send Campaign
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 AI Mail Automation Agent. Built for performance.</p>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
 </html>

@@ -56,36 +56,57 @@ def index():
 
 @app.route('/send', methods=['POST'])
 def send():
-    uploaded = request.files.get('file')
+    mode = request.form.get('mode', 'bulk')
     subject = request.form.get('subject', '')
     body_template = request.form.get('body', '')
     from_addr = request.form.get('from_addr') or SMTP_USER
-
-    if not uploaded or uploaded.filename == '':
-        return 'No file uploaded', 400
-
-    stream = io.StringIO(uploaded.stream.read().decode('utf-8'))
-    reader = csv.DictReader(stream)
 
     results = []
     sent = 0
     failed = 0
 
-    for row in reader:
-        email, name = find_email_and_name(row)
-        if not email:
-            results.append((None, 'missing email'))
-            failed += 1
-            continue
-
+    if mode == 'single':
+        recipient = request.form.get('recipient_email')
+        name = request.form.get('recipient_name', '')
+        
+        if not recipient:
+            return 'Recipient email is required for single send mode', 400
+            
+        # Replace {{name}} even in single mode if name is provided (or empty string)
         body = body_template.replace('{{name}}', name)
+        
         try:
-            send_email(email, subject, body, from_addr)
-            results.append((email, 'sent'))
+            send_email(recipient, subject, body, from_addr)
+            results.append((recipient, 'sent'))
             sent += 1
         except Exception as e:
-            results.append((email, f'error: {e}'))
+            results.append((recipient, f'error: {e}'))
             failed += 1
+
+    else:
+        # Bulk Mode
+        uploaded = request.files.get('file')
+        if not uploaded or uploaded.filename == '':
+            return 'No file uploaded', 400
+
+        stream = io.StringIO(uploaded.stream.read().decode('utf-8'))
+        reader = csv.DictReader(stream)
+
+        for row in reader:
+            email, name = find_email_and_name(row)
+            if not email:
+                results.append((None, 'missing email'))
+                failed += 1
+                continue
+
+            body = body_template.replace('{{name}}', name)
+            try:
+                send_email(email, subject, body, from_addr)
+                results.append((email, 'sent'))
+                sent += 1
+            except Exception as e:
+                results.append((email, f'error: {e}'))
+                failed += 1
 
     return render_template('result.html', sent=sent, failed=failed, results=results)
 

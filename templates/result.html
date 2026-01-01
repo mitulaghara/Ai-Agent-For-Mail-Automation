@@ -1,276 +1,91 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Results</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      :root {
-        --primary: #6366f1;
-        --secondary: #8b5cf6;
-        --success: #10b981;
-        --danger: #ef4444;
-      }
-      
-      body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 40px 20px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-      
-      .card {
-        border: none;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-      }
-      
-      .card-header {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        color: white;
-        padding: 30px;
-        border: none;
-      }
-      
-      .card-title {
-        font-size: 2rem;
-        font-weight: 700;
-        margin: 0;
-      }
-      
-      .card-body {
-        padding: 40px;
-        background: #f8fafc;
-      }
-      
-      .stats-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-bottom: 40px;
-      }
-      
-      .stat-box {
-        padding: 25px;
-        border-radius: 15px;
-        text-align: center;
-        font-weight: 600;
-      }
-      
-      .stat-box.success {
-        background: rgba(16, 185, 129, 0.1);
-        border: 2px solid var(--success);
-        color: var(--success);
-      }
-      
-      .stat-box.danger {
-        background: rgba(239, 68, 68, 0.1);
-        border: 2px solid var(--danger);
-        color: var(--danger);
-      }
-      
-      .stat-number {
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 5px;
-      }
-      
-      .stat-label {
-        font-size: 0.95rem;
-        opacity: 0.8;
-      }
-      
-      .results-title {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #e2e8f0;
-      }
-      
-      .table-wrapper {
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid #e2e8f0;
-      }
-      
-      table {
-        margin-bottom: 0;
-      }
-      
-      thead {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        color: white;
-      }
-      
-      thead th {
-        border: none;
-        padding: 15px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-      }
-      
-      tbody td {
-        padding: 12px 15px;
-        border-bottom: 1px solid #e2e8f0;
-        color: #475569;
-      }
-      
-      tbody tr:last-child td {
-        border-bottom: none;
-      }
-      
-      tbody tr:hover {
-        background: rgba(99, 102, 241, 0.02);
-      }
-      
-      .status-badge {
-        display: inline-block;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-      }
-      
-      .status-sent {
-        background: rgba(16, 185, 129, 0.15);
-        color: var(--success);
-      }
-      
-      .status-error {
-        background: rgba(239, 68, 68, 0.15);
-        color: var(--danger);
-      }
-      
-      .email-cell {
-        font-family: 'Courier New', monospace;
-        font-size: 0.9rem;
-      }
-      
-      .action-group {
-        margin-top: 30px;
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-      }
-      
-      .btn-back {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        border: none;
-        color: white;
-        padding: 12px 32px;
-        font-weight: 600;
-        border-radius: 12px;
-        text-decoration: none;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        display: inline-block;
-      }
-      
-      .btn-back:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        color: white;
-      }
-      
-      .empty-state {
-        text-align: center;
-        padding: 40px 20px;
-        color: #64748b;
-      }
-      
-      .empty-state-icon {
-        font-size: 3rem;
-        margin-bottom: 15px;
-      }
-      
-      @media (max-width: 768px) {
-        .stats-row {
-          grid-template-columns: 1fr;
-        }
-        
-        .card-body {
-          padding: 20px;
-        }
-        
-        .card-title {
-          font-size: 1.5rem;
-        }
-        
-        table {
-          font-size: 0.9rem;
-        }
-        
-        thead th, tbody td {
-          padding: 10px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container" style="max-width: 900px;">
-      <div class="card">
-        <div class="card-header">
-          <h1 class="card-title">✅ Send Results</h1>
-        </div>
-        <div class="card-body">
-          <!-- Stats -->
-          <div class="stats-row">
-            <div class="stat-box success">
-              <div class="stat-number">{{ sent }}</div>
-              <div class="stat-label">Emails Sent</div>
-            </div>
-            <div class="stat-box danger">
-              <div class="stat-number">{{ failed }}</div>
-              <div class="stat-label">Failed</div>
-            </div>
-          </div>
 
-          <!-- Results Table -->
-          {% if results %}
-          <div class="results-title">📋 Detailed Results</div>
-          <div class="table-wrapper">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Email Address</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for e, s in results %}
-                <tr>
-                  <td class="email-cell">{{ e or 'N/A' }}</td>
-                  <td>
-                    {% if 'sent' in s %}
-                      <span class="status-badge status-sent">✓ {{ s }}</span>
-                    {% else %}
-                      <span class="status-badge status-error">✗ {{ s }}</span>
-                    {% endif %}
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          {% else %}
-          <div class="empty-state">
-            <div class="empty-state-icon">📭</div>
-            <p>No results to display</p>
-          </div>
-          {% endif %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaign Report | AI Mail Agent</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 
-          <!-- Action -->
-          <div class="action-group">
-            <a href="/" class="btn-back">← Send More Emails</a>
-          </div>
-        </div>
+<body>
+  <div class="container animate-fade-in">
+    <header>
+      <h1><i class="fa-solid fa-chart-column"></i> Campaign Report</h1>
+      <p class="subtitle">Detailed analysis of your recent broadcast.</p>
+    </header>
+
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+      <div class="stat-card delay-1 animate-fade-in">
+        <div class="stat-value total">{{ sent + failed }}</div>
+        <div class="stat-label">Total Recipients</div>
+      </div>
+      <div class="stat-card delay-1 animate-fade-in">
+        <div class="stat-value sent">{{ sent }}</div>
+        <div class="stat-label">Successfully Sent</div>
+      </div>
+      <div class="stat-card delay-1 animate-fade-in">
+        <div class="stat-value failed">{{ failed }}</div>
+        <div class="stat-label">Failed</div>
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+    <!-- Detailed Log -->
+    <main class="glass-panel delay-2 animate-fade-in" style="padding: 0; overflow: hidden;">
+      <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+        <h3 style="font-weight: 500;">Transmission Log</h3>
+      </div>
+
+      <div class="results-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Recipient Email</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if results %}
+            {% for email, status in results %}
+            <tr>
+              <td>
+                {% if email %}
+                {{ email }}
+                {% else %}
+                <span style="color: var(--text-muted); font-style: italic;">Unknown Email</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if status == 'sent' %}
+                <span class="status-badge status-sent">
+                  <i class="fa-solid fa-check"></i> Sent
+                </span>
+                {% else %}
+                <span class="status-badge status-error">
+                  <i class="fa-solid fa-triangle-exclamation"></i> {{ status }}
+                </span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="2" style="text-align: center; color: var(--text-muted);">No records found.</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <div style="text-align: center; margin-top: 2rem; margin-bottom: 3rem;" class="delay-3 animate-fade-in">
+      <a href="/" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left" style="margin-right: 0.5rem;"></i> Send Another Campaign
+      </a>
+    </div>
+  </div>
+</body>
+
 </html>
