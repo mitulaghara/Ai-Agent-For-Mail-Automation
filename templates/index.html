@@ -19,10 +19,10 @@
     <!-- Mode Switcher -->
     <div class="tabs delay-1 animate-fade-in">
       <button class="tab-btn active" onclick="switchMode('bulk')">
-        <i class="fa-solid fa-users"></i> Bulk Blast
+        <i class="fa-solid fa-users"></i> Bulk (Sabko bheje)
       </button>
       <button class="tab-btn" onclick="switchMode('single')">
-        <i class="fa-solid fa-paper-plane"></i> Single Email
+        <i class="fa-solid fa-paper-plane"></i> Single (Ek ko bheje)
       </button>
     </div>
 
@@ -33,13 +33,14 @@
         <!-- Bulk Section -->
         <div id="bulk-section" class="visible">
           <div class="form-group">
-            <label>Recipient List (CSV)</label>
+            <label>1. Select Contact List (CSV File)</label>
             <div id="drop-zone" class="file-upload-area">
               <input type="file" name="file" id="file" class="file-input" accept=".csv">
               <div class="file-label">
                 <i class="fa-solid fa-cloud-arrow-up icon-upload"></i>
-                <span>Drag & drop your CSV file here</span>
-                <small style="color: var(--text-muted)">Columns: email, name</small>
+                <span><b>Click to upload</b> or Drag CSV file here</span>
+                <small style="color: var(--text-muted); margin-top: 5px;">File mein 'email' aur 'name' columns hone
+                  chahiye</small>
               </div>
             </div>
             <div id="file-name" class="file-name" style="text-align: center; opacity: 0; transition: opacity 0.3s;">
@@ -50,12 +51,12 @@
         <!-- Single Section -->
         <div id="single-section" class="hidden">
           <div class="form-group">
-            <label for="recipient_email">Recipient Email</label>
-            <input type="email" name="recipient_email" id="recipient_email" placeholder="recipient@example.com">
+            <label for="recipient_email">1. Receiver's Email (Jisko bhejna hai)</label>
+            <input type="email" name="recipient_email" id="recipient_email" placeholder="example@gmail.com">
           </div>
           <div class="form-group">
-            <label for="recipient_name">Recipient Name (Optional)</label>
-            <input type="text" name="recipient_name" id="recipient_name" placeholder="John Doe">
+            <label for="recipient_name">2. Receiver's Name (Uska Naam - Optional)</label>
+            <input type="text" name="recipient_name" id="recipient_name" placeholder="e.g. Rahul">
           </div>
         </div>
 
@@ -63,22 +64,24 @@
 
         <!-- Common Fields -->
         <div class="form-group">
-          <label for="from_addr">From Address (Optional)</label>
-          <input type="email" name="from_addr" id="from_addr" placeholder="Defaults to configured SMTP user">
+          <label for="from_addr">Sender Name (Aapka Naam - Optional)</label>
+          <input type="text" name="from_addr" id="from_addr"
+            placeholder="Jise bhejne wala dikhana hai (Default: Aapki Email ID)">
+          <small style="color: var(--text-muted);">Isse receiver ko pata chalega ki mail kisne bheja hai.</small>
         </div>
 
         <div class="form-group">
-          <label for="subject">Subject Line</label>
-          <input type="text" name="subject" id="subject" placeholder="Enter an engaging subject..." required>
+          <label for="subject">Subject (Mail ka Vishay)</label>
+          <input type="text" name="subject" id="subject" placeholder="Important Update..." required>
         </div>
 
         <div class="form-group">
-          <label for="body">Email Body</label>
-          <textarea name="body" id="body" placeholder="Hello {{name}},&#10;&#10;I am writing to you about..."
+          <label for="body">Message Write Here (Yahan message likhein)</label>
+          <textarea name="body" id="body" placeholder="Hello {{name}},&#10;&#10;Yahan apna pura email likhein..."
             required></textarea>
           <small style="color: var(--text-muted); display: block; margin-top: 0.5rem;">
-            <i class="fa-solid fa-circle-info"></i> Pro Tip: Use <strong>{{name}}</strong> to auto-insert the
-            recipient's name.
+            <i class="fa-solid fa-circle-info"></i> Tip: <strong>{{name}}</strong> likhne se wahan receiver ka asli naam
+            aa jayega.
           </small>
         </div>
 
