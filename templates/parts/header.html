@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sending Campaign... | AI Mail Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        function updateStats(sent, failed) {
+            const sentEl = document.getElementById('val-sent');
+            const failedEl = document.getElementById('val-failed');
+            if (sentEl) sentEl.innerText = sent;
+            if (failedEl) failedEl.innerText = failed;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container animate-fade-in">
+        <header>
+            <h1 id="page-title"><i class="fa-solid fa-paper-plane"></i> Sending Campaign...</h1>
+            <p class="subtitle" id="page-subtitle">Please do not close this window while we process your emails.</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card delay-1 animate-fade-in">
+                <div class="stat-value total">{{ total }}</div>
+                <div class="stat-label">Total Recipients</div>
+            </div>
+            <div class="stat-card delay-1 animate-fade-in">
+                <div class="stat-value sent" id="val-sent">0</div>
+                <div class="stat-label">Successfully Sent</div>
+            </div>
+            <div class="stat-card delay-1 animate-fade-in">
+                <div class="stat-value failed" id="val-failed">0</div>
+                <div class="stat-label">Failed</div>
+            </div>
+        </div>
+
+        <main class="glass-panel delay-2 animate-fade-in" style="padding: 0; overflow: hidden; margin-top: 2rem;">
+            <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                <h3 style="font-weight: 500;">Live Transmission Log</h3>
+            </div>
+
+            <div class="results-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recipient Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>

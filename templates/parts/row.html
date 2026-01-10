@@ -1,0 +1,23 @@
+<tr>
+    <td>
+        {% if email %}
+        {{ email }}
+        {% else %}
+        <span style="color: var(--text-muted); font-style: italic;">Unknown Email</span>
+        {% endif %}
+    </td>
+    <td>
+        {% if status == 'sent' %}
+        <span class="status-badge status-sent">
+            <i class="fa-solid fa-check"></i> Sent
+        </span>
+        {% else %}
+        <span class="status-badge status-error">
+            <i class="fa-solid fa-triangle-exclamation"></i> {{ status }}
+        </span>
+        {% endif %}
+    </td>
+</tr>
+<script>
+    updateStats({{ sent_count }}, {{ failed_count }});
+</script>

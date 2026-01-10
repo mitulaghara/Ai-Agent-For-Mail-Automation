@@ -23,8 +23,8 @@ Render is excellent for this app because it provides a proper **Web Service** th
     *   **Branch**: `main`.
     *   **Runtime**: `Python 3`.
     *   **Build Command**: `pip install -r requirements.txt` (Default is fine).
-    *   **Start Command**: `gunicorn app:app`
-        *   *(Important: This tells Render to run your app using Gunicorn server).*
+    *   **Start Command**: `gunicorn app:app --bind 0.0.0.0:$PORT`
+        *   *(Important: This tells Render to run your app using Gunicorn server and listen on the correct port).*
 
 5.  **Enter Environment Variables (The Secret Keys)**
     *   Scroll down to **"Advanced"** or **"Environment Variables"**.

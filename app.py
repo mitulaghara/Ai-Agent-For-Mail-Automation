@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Response, stream_with_context
 import os
 import csv
 import io
@@ -61,54 +61,70 @@ def send():
     body_template = request.form.get('body', '')
     from_addr = request.form.get('from_addr') or SMTP_USER
 
-    results = []
-    sent = 0
-    failed = 0
+    # 1. Prepare list of recipients
+    recipients = []
 
     if mode == 'single':
-        recipient = request.form.get('recipient_email')
-        name = request.form.get('recipient_name', '')
-        
-        if not recipient:
+        r_email = request.form.get('recipient_email')
+        r_name = request.form.get('recipient_name', '')
+        if not r_email:
             return 'Recipient email is required for single send mode', 400
-            
-        # Replace {{name}} even in single mode if name is provided (or empty string)
-        body = body_template.replace('{{name}}', name)
-        
-        try:
-            send_email(recipient, subject, body, from_addr)
-            results.append((recipient, 'sent'))
-            sent += 1
-        except Exception as e:
-            results.append((recipient, f'error: {e}'))
-            failed += 1
-
+        recipients.append({'email': r_email, 'name': r_name})
     else:
         # Bulk Mode
         uploaded = request.files.get('file')
         if not uploaded or uploaded.filename == '':
             return 'No file uploaded', 400
 
-        stream = io.StringIO(uploaded.stream.read().decode('utf-8'))
-        reader = csv.DictReader(stream)
+        try:
+            stream = io.StringIO(uploaded.stream.read().decode('utf-8'))
+            reader = csv.DictReader(stream)
+            for row in reader:
+                email, name = find_email_and_name(row)
+                if email:
+                    recipients.append({'email': email, 'name': name})
+        except Exception as e:
+            return f"Error reading CSV file: {e}", 400
 
-        for row in reader:
-            email, name = find_email_and_name(row)
-            if not email:
-                results.append((None, 'missing email'))
-                failed += 1
-                continue
+    if not recipients:
+        return "No valid recipients found.", 400
 
+    # 2. Generator Function for Streaming Response
+    def generate():
+        total = len(recipients)
+        sent = 0
+        failed = 0
+
+        # Yield HTML Header
+        yield render_template('parts/header.html', total=total)
+
+        # Process Each Recipient
+        for r in recipients:
+            email = r['email']
+            name = r['name']
+            status = 'pending'
+
+            # Personalize Body
             body = body_template.replace('{{name}}', name)
+
+            # Send Email
             try:
                 send_email(email, subject, body, from_addr)
-                results.append((email, 'sent'))
+                status = 'sent'
                 sent += 1
             except Exception as e:
-                results.append((email, f'error: {e}'))
+                # Log error safely
+                status = str(e)
                 failed += 1
 
-    return render_template('result.html', sent=sent, failed=failed, results=results)
+            # Yield Table Row with Status
+            yield render_template('parts/row.html', email=email, status=status, sent_count=sent, failed_count=failed)
+
+        # Yield HTML Footer
+        yield render_template('parts/footer.html', sent=sent, failed=failed)
+
+    # 3. Return Streaming Response
+    return Response(stream_with_context(generate()))
 
 
 if __name__ == '__main__':
